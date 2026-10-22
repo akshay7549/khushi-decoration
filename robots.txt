@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://akshay7549.github.io/khushi-decoration/sitemap.xml
