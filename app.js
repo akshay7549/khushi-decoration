@@ -23,6 +23,7 @@ function showPhoto(index){
  document.querySelector('#photo-title').textContent=button.querySelector('.gallery-caption>span').textContent;
  document.querySelector('#photo-position').textContent=`${currentPhoto+1} / ${viewerPhotos.length}`;
  updatePhotoSource(button);
+ updateDesignEnquiry(button);
 }
 function updatePhotoSource(button){
  const group=button.dataset.photoSource||'google';
@@ -42,6 +43,7 @@ function updatePhotoSource(button){
 photoButtons.forEach(button=>button.addEventListener('click',()=>{
  const group=button.dataset.photoSource||'google';
  viewerPhotos=button.closest('#photo-grid')?photoButtons.filter(item=>item.closest('#photo-grid')):photoButtons.filter(item=>(item.dataset.photoSource||'google')===group);
+ if(activeOccasion!=='all')viewerPhotos=viewerPhotos.filter(item=>!item.hidden);
  showPhoto(viewerPhotos.indexOf(button));photoViewer.showModal();
 }));
 document.querySelector('.viewer-close').addEventListener('click',()=>photoViewer.close());
@@ -83,3 +85,49 @@ bouquetMore.addEventListener('click',()=>{
  bouquetCount.textContent=`Showing all ${bouquetPhotos.length} bouquet photos`;
  bouquetMore.setAttribute('aria-expanded','true');bouquetMore.hidden=true;
 });
+
+
+// Keep enquiries tied to the exact design being viewed.
+function whatsappURL(message){return 'https://wa.me/917352173036?text='+encodeURIComponent(message);}
+function updateDesignEnquiry(button){
+ const name=button.querySelector('.gallery-caption>span').textContent.trim();
+ const photo=new URL(button.querySelector('img').getAttribute('src'),document.baseURI).href;
+ document.querySelector('#design-enquiry').href=whatsappURL(`Namaste Khushi! Mujhe aisa design chahiye: ${name} (Design ${button.dataset.photoIndex}).\nPhoto: ${photo}\nOccasion: \nDate: \nLocation: \nBudget: `);
+}
+document.querySelectorAll('[data-whatsapp]').forEach(link=>{link.href=whatsappURL('Namaste Khushi! Main apna decoration design discuss karna chahta/chahti hoon.\nOccasion: \nDate: \nLocation: \nBudget: \nMain apni reference photo bhi bhejunga/bhejungi.');});
+photoButtons.forEach(button=>{const hint=document.createElement('span');hint.className='enquiry-hint';hint.textContent='View design & enquire ↗';button.append(hint);});
+
+// Filter the existing photos in place: no duplicate gallery images.
+const occasionSections=['bouquets','wedding-car','catalogue','gallery'].map(id=>document.getElementById(id));
+const initialHidden=new Map(photoButtons.map(button=>[button,button.hidden]));
+const moreControls=[showAllPhotos,showAllDesigns,bouquetMore];
+const initialMore=new Map(moreControls.map(button=>[button,button.hidden]));
+let activeOccasion='all';
+function photoOccasion(button){
+ const text=(button.querySelector('img').alt+' '+button.textContent).toLowerCase();
+ if(button.dataset.photoSource==='bouquets')return 'bouquet';
+ if(button.dataset.photoSource==='car'||/\bcar\b|ride|mile/.test(text))return 'car';
+ if(/devotion|faith|puja|festival|seasonal|marigold|toran/.test(text))return 'seasonal';
+ if(/stage|wedding|mandap|canopy|backdrop|seating|entrance|arch/.test(text))return 'stage';
+ return 'other';
+}
+document.querySelectorAll('[data-occasion]').forEach(control=>control.addEventListener('click',()=>{
+ if(activeOccasion==='all'){
+  photoButtons.forEach(button=>initialHidden.set(button,button.hidden));
+  moreControls.forEach(button=>initialMore.set(button,button.hidden));
+ }
+ activeOccasion=control.dataset.occasion;
+ document.querySelectorAll('[data-occasion]').forEach(button=>button.setAttribute('aria-pressed',String(button===control)));
+ let matches=0;
+ photoButtons.forEach(button=>{const match=photoOccasion(button)===activeOccasion;button.hidden=activeOccasion==='all'?initialHidden.get(button):!match;if(!button.hidden)matches++;});
+ occasionSections.forEach(section=>{section.hidden=![...section.querySelectorAll('[data-photo-index]')].some(button=>!button.hidden);});
+ moreControls.forEach(button=>{button.hidden=activeOccasion==='all'?initialMore.get(button):true;});
+ document.querySelectorAll('#gallery-count,#bouquet-count,#catalogue-count').forEach(count=>{count.hidden=activeOccasion!=='all';});
+ document.getElementById('occasion-status').textContent=activeOccasion==='all'?'Browse our collection, then open a photo to enquire about that design.':`${matches} photos for ${control.textContent}. Open any photo to enquire.`;
+}));
+
+// Section links should also work while an occasion filter is selected.
+document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',()=>{
+ const target=document.getElementById(link.getAttribute('href').slice(1));
+ if(target&&target.hidden&&occasionSections.includes(target))document.querySelector('[data-occasion="all"]').click();
+}));
