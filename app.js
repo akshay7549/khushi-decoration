@@ -98,12 +98,13 @@ document.querySelectorAll('[data-whatsapp]').forEach(link=>{link.href=whatsappUR
 photoButtons.forEach(button=>{const hint=document.createElement('span');hint.className='enquiry-hint';hint.textContent='View design & enquire ↗';button.append(hint);});
 
 // Filter the existing photos in place: no duplicate gallery images.
-const occasionSections=['bouquets','wedding-car','catalogue','gallery'].map(id=>document.getElementById(id));
+const occasionSections=['celebrations','bouquets','wedding-car','catalogue','gallery'].map(id=>document.getElementById(id));
 const initialHidden=new Map(photoButtons.map(button=>[button,button.hidden]));
 const moreControls=[showAllPhotos,showAllDesigns,bouquetMore];
 const initialMore=new Map(moreControls.map(button=>[button,button.hidden]));
 let activeOccasion='all';
 function photoOccasion(button){
+ if(button.dataset.occasionType)return button.dataset.occasionType;
  const text=(button.querySelector('img').alt+' '+button.textContent).toLowerCase();
  if(button.dataset.photoSource==='bouquets')return 'bouquet';
  if(button.dataset.photoSource==='car'||/\bcar\b|ride|mile/.test(text))return 'car';

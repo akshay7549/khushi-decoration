@@ -43,3 +43,27 @@
 
 /* Occasion browsing and personal enquiries */
 [hidden]{display:none!important}.occasion-browser{padding-top:60px;padding-bottom:60px}.occasion-browser h2{font-size:42px}.occasion-filters{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.occasion-filters button{border:1px solid #bda37e;background:transparent;color:var(--wine);padding:13px 19px;min-height:44px;font:inherit;font-size:12px;cursor:pointer}.occasion-filters button[aria-pressed="true"]{background:var(--wine);color:var(--cream)}#occasion-status{font-size:12px;color:var(--muted);margin:18px 0 0}.booking-section{background:#f3ede4;border-top:1px solid var(--line)}.booking-steps{list-style:none;padding:0;margin:35px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}.booking-steps li{border-top:1px solid #bda37e;padding-top:23px}.booking-steps li>span{font-size:12px;letter-spacing:2px;color:#98754b}.booking-steps h3{font-family:var(--serif);font-size:30px;font-weight:400;margin:15px 0}.booking-steps p{font-size:13px;line-height:1.8;color:var(--muted)}.booking-note{font-size:11px;color:var(--muted);margin-top:14px}.enquiry-hint{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.2px;text-align:left;margin-top:12px;color:#937044}.car-feature .enquiry-hint{color:#dfc29d}#design-enquiry{display:flex;width:fit-content;margin:15px auto;font-size:12px}.whatsapp-float{position:fixed;right:22px;bottom:24px;z-index:30;background:#285c43;color:#fff;padding:15px 22px;box-shadow:0 4px 20px #0002;border-radius:30px;font-size:13px;display:flex;gap:16px;min-height:48px;align-items:center}.whatsapp-float:hover{background:#1b4531}.occasion-filters button:focus-visible,.whatsapp-float:focus-visible,#design-enquiry:focus-visible{outline:3px solid #b18a53;outline-offset:4px}@media(max-width:560px){.occasion-browser{padding-block:40px}.occasion-browser h2{font-size:34px}.occasion-filters{gap:8px}.occasion-filters button{font-size:11px;padding:10px 13px}.booking-steps{grid-template-columns:1fr;gap:22px}.booking-steps h3{font-size:28px}.booking-steps p{font-size:12px}.whatsapp-float{bottom:calc(76px + env(safe-area-inset-bottom));right:14px;padding:12px 18px;font-size:12px}#design-enquiry{font-size:11px;max-width:100%}.enquiry-hint{font-size:10px}}
+
+/* Family celebrations and user-supplied birthday inspiration. */
+.celebrations{background:#f1ebe2;border-block:1px solid var(--line)}
+.celebration-services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 36px}
+.celebration-service{padding:27px 0 30px;border-top:1px solid #c9b69b;scroll-margin-top:120px}
+.celebration-number,.celebration-tag{font-size:8px;letter-spacing:1.8px;color:#98754b}
+.celebration-service h3,.celebration-gallery-heading h3{font:400 34px/1.15 var(--serif);margin:13px 0}
+.celebration-service p{font-size:12px;color:var(--muted);min-height:62px;max-width:330px;margin-bottom:12px}
+.celebration-service .text-link{font-size:11px;min-height:44px}
+.celebration-gallery-heading{display:flex;justify-content:space-between;align-items:end;gap:35px;margin:48px 0 28px}
+.celebration-gallery-heading .eyebrow{margin-bottom:10px}
+.celebration-gallery-heading h3{margin-bottom:0;font-size:39px}
+.celebration-gallery-heading>p{max-width:340px;font-size:12px;color:var(--muted);margin:0}
+.celebration-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 25px}
+.celebration-photo{display:block;width:100%;min-width:0;text-align:left;border:0;background:transparent;color:var(--ink);padding:0}
+.celebration-image{display:block;aspect-ratio:4/5;overflow:hidden;background:#e3d8ca}
+.celebration-image img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.celebration-photo:hover img{transform:scale(1.035)}
+.celebration-tag{display:block;margin-top:16px;font-size:7px}
+.celebration-photo .gallery-caption{padding-top:8px;gap:12px}
+.celebration-photo .gallery-caption>span:first-child{font:400 24px/1.2 var(--serif)}
+@media(max-width:1000px){header{gap:16px}nav{gap:17px}.celebration-services{gap:0 24px}.celebration-service h3{font-size:30px}}
+@media(max-width:800px){.celebration-grid,.celebration-services{grid-template-columns:repeat(2,minmax(0,1fr))}.celebration-gallery-heading{align-items:start;flex-direction:column;gap:15px}.celebration-service p{min-height:65px}}
+@media(max-width:560px){.celebrations .section-head{display:block}.celebrations .section-head>p{margin-top:20px}.celebration-services{grid-template-columns:1fr;gap:0}.celebration-service{padding:22px 0}.celebration-service p{min-height:0;max-width:none}.celebration-service h3{font-size:31px}.celebration-grid{gap:24px 14px}.celebration-photo .gallery-caption>span:first-child{font-size:21px}.celebration-tag{font-size:6px;letter-spacing:1px}.celebration-gallery-heading h3{font-size:32px}}
