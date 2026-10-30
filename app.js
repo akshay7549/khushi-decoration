@@ -88,7 +88,7 @@ bouquetMore.addEventListener('click',()=>{
 
 
 // Keep enquiries tied to the exact design being viewed.
-function whatsappURL(message){return 'https://wa.me/917352173036?text='+encodeURIComponent(message);}
+function whatsappURL(message){return 'https://wa.me/917549645076?text='+encodeURIComponent(message);}
 function updateDesignEnquiry(button){
  const name=button.querySelector('.gallery-caption>span').textContent.trim();
  const photo=new URL(button.querySelector('img').getAttribute('src'),document.baseURI).href;
