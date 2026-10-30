@@ -19,7 +19,7 @@ let currentPhoto=0;
 function showPhoto(index){
  currentPhoto=(index+viewerPhotos.length)%viewerPhotos.length;
  const button=viewerPhotos[currentPhoto],source=button.querySelector('img');
- const image=document.querySelector('#viewer-image');image.src=source.getAttribute('src');image.alt=source.alt;
+ const image=document.querySelector('#viewer-image');image.src=button.dataset.fullSrc||source.getAttribute('src');image.alt=source.alt;
  document.querySelector('#photo-title').textContent=button.querySelector('.gallery-caption>span').textContent;
  document.querySelector('#photo-position').textContent=`${currentPhoto+1} / ${viewerPhotos.length}`;
  updatePhotoSource(button);
@@ -55,7 +55,7 @@ photoViewer.addEventListener('click',event=>{if(event.target===photoViewer){cons
 function whatsappURL(message){return 'https://wa.me/917549645076?text='+encodeURIComponent(message);}
 function updateDesignEnquiry(button){
  const name=button.querySelector('.gallery-caption>span').textContent.trim();
- const photo=new URL(button.querySelector('img').getAttribute('src'),document.baseURI).href;
+ const photo=new URL(button.dataset.fullSrc||button.querySelector('img').getAttribute('src'),document.baseURI).href;
  document.querySelector('#design-enquiry').href=whatsappURL(`Namaste Khushi! Mujhe aisa design chahiye: ${name} (Design ${button.dataset.photoIndex}).\nPhoto: ${photo}\nOccasion: \nDate: \nLocation: \nBudget: `);
 }
 document.querySelectorAll('[data-whatsapp]').forEach(link=>{link.href=whatsappURL('Namaste Khushi! Main apna decoration design discuss karna chahta/chahti hoon.\nOccasion: \nDate: \nLocation: \nBudget: \nMain apni reference photo bhi bhejunga/bhejungi.');});
