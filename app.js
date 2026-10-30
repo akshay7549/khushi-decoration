@@ -98,7 +98,7 @@ document.querySelectorAll('[data-whatsapp]').forEach(link=>{link.href=whatsappUR
 photoButtons.forEach(button=>{const hint=document.createElement('span');hint.className='enquiry-hint';hint.textContent='View design & enquire ↗';button.append(hint);});
 
 // Filter the existing photos in place: no duplicate gallery images.
-const occasionSections=['celebrations','bouquets','wedding-car','catalogue','gallery'].map(id=>document.getElementById(id));
+const occasionSections=['celebrations','anniversary-gallery','welcome-baby-gallery','bouquets','wedding-car','catalogue','gallery'].map(id=>document.getElementById(id));
 const initialHidden=new Map(photoButtons.map(button=>[button,button.hidden]));
 const moreControls=[showAllPhotos,showAllDesigns,bouquetMore];
 const initialMore=new Map(moreControls.map(button=>[button,button.hidden]));
