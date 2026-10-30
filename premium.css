@@ -72,4 +72,26 @@
 .occasion-feature-layout{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:70px}.occasion-feature:nth-of-type(even){background:#f2ece3}.occasion-feature h2{font-size:54px}.occasion-feature-copy{font-size:14px;color:var(--muted);margin:26px 0 18px;max-width:440px}.concept-note{font-size:11px;color:var(--muted);max-width:440px;margin-bottom:25px}.occasion-feature-photo{width:100%;padding:0;border:0;background:transparent;text-align:left;color:var(--ink)}.occasion-feature-image{display:block;aspect-ratio:4/5;overflow:hidden;background:#e3d8ca}.occasion-feature-image img{width:100%;height:100%;object-fit:cover}.occasion-preview-link{display:inline-block;font-size:11px;border-bottom:1px solid #bda37e;margin-bottom:15px;min-height:30px}.occasion-feature .gallery-caption{font:400 26px/1.3 var(--serif)}.service-area{background:var(--wine);color:var(--cream)}.service-area-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:70px;align-items:center}.service-area h2{font-size:50px}.service-area h2 em{color:#dfc29d}.service-area p{font-size:13px;color:#e2d6cf;margin-top:25px;max-width:520px}.service-area-detail{border-left:1px solid #c5a57870;padding-left:40px}.service-area-detail h3{font:400 31px/1.2 var(--serif);margin:0}.service-area .button{font-size:12px}.mobile-contact [data-whatsapp]{background:#285c43;color:white}@media(max-width:800px){.occasion-feature-layout,.service-area-layout{gap:32px}.occasion-feature h2,.service-area h2{font-size:43px}.service-area-detail{padding-left:25px}}@media(max-width:560px){.occasion-feature-layout,.service-area-layout{grid-template-columns:1fr;gap:30px}.occasion-feature h2,.service-area h2{font-size:42px}.occasion-feature-copy{font-size:13px}.occasion-feature-photo{max-width:440px}.service-area-detail{border-left:0;border-top:1px solid #c5a57870;padding:26px 0 0}.service-area .button{font-size:11px;gap:15px;max-width:100%;white-space:normal}.whatsapp-float{display:none}.mobile-contact a{font-size:12px;min-height:48px}}
 
 /* Separate booking, management and owner contacts. */
+/* Photo backgrounds for every celebration option. */
+.celebration-services{gap:24px}
+.celebration-service{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:flex-start;min-height:380px;padding:30px 26px;border:1px solid #bda37e;overflow:hidden;background:var(--wine);color:#fffaf1}
+.celebration-service::before{content:'';position:absolute;inset:0;z-index:-2;background-image:var(--occasion-image);background-size:cover;background-position:var(--occasion-position,center);transition:transform .4s ease}
+.celebration-service::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(26,13,19,.68),rgba(26,13,19,.58) 45%,rgba(26,13,19,.9))}
+.celebration-service:hover::before{transform:scale(1.04)}
+#occasion-birthday{--occasion-image:url('assets/celebrations/birthday-gold-sequin.jpg')}
+#occasion-anniversary{--occasion-image:url('assets/celebrations/anniversary-concept.webp')}
+#occasion-welcome-baby{--occasion-image:url('assets/celebrations/welcome-baby-concept.webp')}
+#occasion-baby-shower{--occasion-image:url('assets/celebrations/welcome-baby-concept.webp');--occasion-position:30% 75%}
+#occasion-first-birthday{--occasion-image:url('assets/celebrations/birthday-pastel-arch.jpg')}
+#occasion-surprises{--occasion-image:url('assets/celebrations/birthday-rooftop-lights.jpg');--occasion-position:center 48%}
+.celebration-service .celebration-number{color:#f2d9b4;font-size:9px}
+.celebration-service h3{font-size:35px;color:#fffaf1;text-shadow:0 1px 8px #0004;margin:17px 0}
+.celebration-service p{color:#fff4e5;font-size:13px;line-height:1.8;min-height:0;margin:0 0 24px;max-width:none}
+.celebration-service .occasion-preview-link{color:#ffe1b5;border-color:#e0c39c99;margin:0 0 18px;min-height:36px;font-size:11px}
+.celebration-service .text-link{color:#fff3df;border-bottom:1px solid #f0dac066;margin-top:auto;font-size:12px;gap:18px;min-height:44px}
+.celebration-service .text-link:hover,.celebration-service .occasion-preview-link:hover{color:#ffe1a8;border-color:#ffe1a8}
+.celebration-background-note{font-size:10px;color:var(--muted);margin:18px 0 0}
+@media(max-width:800px){.celebration-services{gap:18px}.celebration-service{padding:27px 23px;min-height:370px}.celebration-service h3{font-size:32px}}
+@media(max-width:560px){.celebration-services{gap:18px}.celebration-service{min-height:345px;padding:28px 24px}.celebration-service h3{font-size:33px}.celebration-service p{font-size:13px;max-width:350px}}
+@media(prefers-reduced-motion:reduce){.celebration-service::before{transition:none}.celebration-service:hover::before{transform:none}}
 .contact-role{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}.contact-role>span,.footer-role>span{display:block;font-size:10px;color:var(--muted);line-height:1.5}.contact-role>a{display:inline-block;font-size:15px;padding:5px 0;min-height:34px}.contact-role>a:hover{text-decoration:underline;text-underline-offset:4px}.footer-role{margin-top:14px}.footer-role>span{color:#c9b39b;font-size:9px}.footer-role>a{display:inline-block;min-height:30px;padding-top:4px}.footer-column .footer-role .footer-phone{margin-top:0}.mobile-contact>a:first-child{font-size:11px}
