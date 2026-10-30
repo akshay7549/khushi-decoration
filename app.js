@@ -42,8 +42,7 @@ function updatePhotoSource(button){
 }
 photoButtons.forEach(button=>button.addEventListener('click',()=>{
  const group=button.dataset.photoSource||'google';
- viewerPhotos=button.closest('#photo-grid')?photoButtons.filter(item=>item.closest('#photo-grid')):photoButtons.filter(item=>(item.dataset.photoSource||'google')===group);
- if(activeOccasion!=='all')viewerPhotos=viewerPhotos.filter(item=>!item.hidden);
+ viewerPhotos=button.dataset.galleryCategory?photoButtons.filter(item=>item.dataset.galleryCategory===button.dataset.galleryCategory):photoButtons.filter(item=>(item.dataset.photoSource||'google')===group);
  showPhoto(viewerPhotos.indexOf(button));photoViewer.showModal();
 }));
 document.querySelector('.viewer-close').addEventListener('click',()=>photoViewer.close());
@@ -51,41 +50,6 @@ document.querySelector('.viewer-prev').addEventListener('click',()=>showPhoto(cu
 document.querySelector('.viewer-next').addEventListener('click',()=>showPhoto(currentPhoto+1));
 photoViewer.addEventListener('keydown',event=>{if(event.key==='ArrowRight'){event.preventDefault();showPhoto(currentPhoto+1);}if(event.key==='ArrowLeft'){event.preventDefault();showPhoto(currentPhoto-1);}});
 photoViewer.addEventListener('click',event=>{if(event.target===photoViewer){const r=photoViewer.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)photoViewer.close();}});
-
-const showAllPhotos=document.querySelector('#show-all-photos');
-const galleryCount=document.querySelector('#gallery-count');
-const googlePhotoButtons=photoButtons.filter(button=>button.closest('#photo-grid'));
-if(googlePhotoButtons.length>8){
- googlePhotoButtons.forEach((button,index)=>{button.hidden=index>=8;});
- galleryCount.textContent=`Showing 8 of ${googlePhotoButtons.length} images`;
- showAllPhotos.addEventListener('click',()=>{
-  googlePhotoButtons.forEach(button=>{button.hidden=false;});
-  galleryCount.textContent=`Showing all ${googlePhotoButtons.length} images`;
-  showAllPhotos.setAttribute('aria-expanded','true');showAllPhotos.hidden=true;
- });
-}else{showAllPhotos.hidden=true;}
-
-const catalogueButtons=photoButtons.filter(button=>button.dataset.photoSource==='catalogue');
-const showAllDesigns=document.querySelector('#show-all-designs');
-catalogueButtons.forEach((button,index)=>{button.hidden=index>=6;});
-document.querySelector('#catalogue-count').textContent=`Showing 6 of ${catalogueButtons.length} designs`;
-showAllDesigns.addEventListener('click',()=>{
- catalogueButtons.forEach(button=>{button.hidden=false;});
- document.querySelector('#catalogue-count').textContent=`Showing all ${catalogueButtons.length} designs`;
- showAllDesigns.setAttribute('aria-expanded','true');showAllDesigns.hidden=true;
-});
-
-const bouquetPhotos=photoButtons.filter(button=>button.dataset.photoSource==='bouquets');
-const bouquetMore=document.querySelector('#show-all-bouquets');
-const bouquetCount=document.querySelector('#bouquet-count');
-bouquetPhotos.forEach((button,index)=>{button.hidden=index>=8;});
-bouquetCount.textContent=`Showing 8 of ${bouquetPhotos.length} bouquet photos`;
-bouquetMore.addEventListener('click',()=>{
- bouquetPhotos.forEach(button=>{button.hidden=false;});
- bouquetCount.textContent=`Showing all ${bouquetPhotos.length} bouquet photos`;
- bouquetMore.setAttribute('aria-expanded','true');bouquetMore.hidden=true;
-});
-
 
 // Keep enquiries tied to the exact design being viewed.
 function whatsappURL(message){return 'https://wa.me/917549645076?text='+encodeURIComponent(message);}
@@ -97,38 +61,43 @@ function updateDesignEnquiry(button){
 document.querySelectorAll('[data-whatsapp]').forEach(link=>{link.href=whatsappURL('Namaste Khushi! Main apna decoration design discuss karna chahta/chahti hoon.\nOccasion: \nDate: \nLocation: \nBudget: \nMain apni reference photo bhi bhejunga/bhejungi.');});
 photoButtons.forEach(button=>{const hint=document.createElement('span');hint.className='enquiry-hint';hint.textContent='View design & enquire ↗';button.append(hint);});
 
-// Filter the existing photos in place: no duplicate gallery images.
-const occasionSections=['celebrations','anniversary-gallery','welcome-baby-gallery','bouquets','wedding-car','catalogue','gallery'].map(id=>document.getElementById(id));
-const initialHidden=new Map(photoButtons.map(button=>[button,button.hidden]));
-const moreControls=[showAllPhotos,showAllDesigns,bouquetMore];
-const initialMore=new Map(moreControls.map(button=>[button,button.hidden]));
-let activeOccasion='all';
-function photoOccasion(button){
- if(button.dataset.occasionType)return button.dataset.occasionType;
- const text=(button.querySelector('img').alt+' '+button.textContent).toLowerCase();
- if(button.dataset.photoSource==='bouquets')return 'bouquet';
- if(button.dataset.photoSource==='car'||/\bcar\b|ride|mile/.test(text))return 'car';
- if(/devotion|faith|puja|festival|seasonal|marigold|toran/.test(text))return 'seasonal';
- if(/stage|wedding|mandap|canopy|backdrop|seating|entrance|arch/.test(text))return 'stage';
- return 'other';
-}
-document.querySelectorAll('[data-occasion]').forEach(control=>control.addEventListener('click',()=>{
- if(activeOccasion==='all'){
-  photoButtons.forEach(button=>initialHidden.set(button,button.hidden));
-  moreControls.forEach(button=>initialMore.set(button,button.hidden));
- }
- activeOccasion=control.dataset.occasion;
- document.querySelectorAll('[data-occasion]').forEach(button=>button.setAttribute('aria-pressed',String(button===control)));
- let matches=0;
- photoButtons.forEach(button=>{const match=photoOccasion(button)===activeOccasion;button.hidden=activeOccasion==='all'?initialHidden.get(button):!match;if(!button.hidden)matches++;});
- occasionSections.forEach(section=>{section.hidden=![...section.querySelectorAll('[data-photo-index]')].some(button=>!button.hidden);});
- moreControls.forEach(button=>{button.hidden=activeOccasion==='all'?initialMore.get(button):true;});
- document.querySelectorAll('#gallery-count,#bouquet-count,#catalogue-count').forEach(count=>{count.hidden=activeOccasion!=='all';});
- document.getElementById('occasion-status').textContent=activeOccasion==='all'?'Browse our collection, then open a photo to enquire about that design.':`${matches} photos for ${control.textContent}. Open any photo to enquire.`;
-}));
 
-// Section links should also work while an occasion filter is selected.
-document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',()=>{
- const target=document.getElementById(link.getAttribute('href').slice(1));
- if(target&&target.hidden&&occasionSections.includes(target))document.querySelector('[data-occasion="all"]').click();
-}));
+// Each photograph belongs to exactly one collection; featured occasion photos stay in place.
+const categoryPanels=[...document.querySelectorAll('[data-category-panel]')];
+const categoryControls=[...document.querySelectorAll('[data-design-category]')];
+const expandedCategories=new Set();
+let activeCategory='birthday';
+function renderCategories(){
+ let matching=0;
+ categoryPanels.forEach(panel=>{
+  const key=panel.dataset.categoryPanel;
+  const photos=[...panel.querySelectorAll('[data-photo-index]')];
+  panel.hidden=activeCategory!=='all'&&activeCategory!==key;
+  if(!panel.hidden)matching+=photos.length;
+  const expanded=expandedCategories.has(key);
+  photos.forEach((photo,i)=>{
+   photo.hidden=!expanded&&i>=6;
+   // Load only visible previews in the selected collection.
+   photo.querySelector('img').loading=!panel.hidden&&!photo.hidden?'eager':'lazy';
+  });
+  const shown=Math.min(photos.length,expanded?photos.length:6);
+  panel.querySelector('.design-count').textContent=`Showing ${shown} of ${photos.length} photos`;
+  const more=panel.querySelector('[data-more-category]');
+  more.hidden=expanded||photos.length<=6;
+  more.setAttribute('aria-expanded',String(expanded));
+ });
+ categoryControls.forEach(control=>control.setAttribute('aria-pressed',String(control.dataset.designCategory===activeCategory)));
+ const title=activeCategory==='all'?'all categories':categoryControls.find(c=>c.dataset.designCategory===activeCategory).textContent.trim().replace(/\s+\d+$/,'');
+ document.getElementById('design-category-status').textContent=`${matching} photos in ${title}. Select a photo to view it and enquire.`;
+}
+categoryControls.forEach(control=>control.addEventListener('click',()=>{activeCategory=control.dataset.designCategory;renderCategories();}));
+document.querySelectorAll('[data-more-category]').forEach(control=>control.addEventListener('click',()=>{expandedCategories.add(control.dataset.moreCategory);renderCategories();}));
+function revealCategoryTarget(hash){
+ const target=document.getElementById(hash.replace(/^#/,''));
+ const panel=target?.closest('[data-category-panel]');
+ if(panel){activeCategory=panel.dataset.categoryPanel;renderCategories();}
+}
+document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',()=>revealCategoryTarget(link.hash)));
+revealCategoryTarget(location.hash);
+renderCategories();
+window.addEventListener('hashchange',()=>revealCategoryTarget(location.hash));
